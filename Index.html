@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotional Emoji Website</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Emotional Emoji Express</h1>
+        </header>
+        
+        <main>
+            <div class="emoji-section">
+                <div id="emoji" class="emoji">😊</div>
+                <h2 id="emotion-text">Happy</h2>
+            </div>
+            
+            <div class="controls">
+                <h3>Change Emotion:</h3>
+                <div class="buttons">
+                    <button onclick="changeEmotion('happy', '😊')">Happy</button>
+                    <button onclick="changeEmotion('sad', '😢')">Sad</button>
+                    <button onclick="changeEmotion('angry', '😠')">Angry</button>
+                    <button onclick="changeEmotion('love', '😍')">Love</button>
+                    <button onclick="changeEmotion('laugh', '😂')">Laugh</button>
+                </div>
+                
+                <div class="custom-emotion">
+                    <h3>Or Create Custom Emotion:</h3>
+                    <form method="POST" action="">
+                        <input type="text" name="custom_emotion" placeholder="Enter emotion name" required>
+                        <select name="custom_emoji">
+                            <option value="😊">😊 Happy</option>
+                            <option value="😢">😢 Sad</option>
+                            <option value="😠">😠 Angry</option>
+                            <option value="😍">😍 Love</option>
+                            <option value="😂">😂 Laugh</option>
+                            <option value="😎">😎 Cool</option>
+                            <option value="🤔">🤔 Thinking</option>
+                            <option value="😴">😴 Sleepy</option>
+                        </select>
+                        <button type="submit">Set Custom Emotion</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- PHP Section -->
+            <div class="php-info">
+                <h3>Server Information (PHP):</h3>
+                <?php
+                // PHP code to display server info and handle form submission
+                date_default_timezone_set('UTC');
+                
+                echo "<p><strong>Current Server Time:</strong> " . date('Y-m-d H:i:s') . "</p>";
+                echo "<p><strong>PHP Version:</strong> " . phpversion() . "</p>";
+                echo "<p><strong>Server Software:</strong> " . $_SERVER['SERVER_SOFTWARE'] . "</p>";
+                
+                // Handle form submission
+                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['custom_emotion'])) {
+                    $customEmotion = htmlspecialchars($_POST['custom_emotion']);
+                    $customEmoji = $_POST['custom_emoji'];
+                    
+                    echo "<div class='custom-result'>";
+                    echo "<p><strong>Your Custom Emotion was set via PHP!</strong></p>";
+                    echo "<p>Emotion: " . $customEmotion . " " . $customEmoji . "</p>";
+                    echo "<script>
+                            setTimeout(function() {
+                                changeEmotion('" . addslashes($customEmotion) . "', '" . $customEmoji . "');
+                            }, 100);
+                          </script>";
+                    echo "</div>";
+                }
+                ?>
+            </div>
+        </main>
+        
+        <footer>
+            <p>Emotional Emoji Website &copy; <?php echo date('Y'); ?></p>
+        </footer>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
